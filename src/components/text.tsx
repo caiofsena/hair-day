@@ -2,11 +2,13 @@ import React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
 type TextProps = 
+  React.ComponentProps<"span"> &
   VariantProps<typeof textVariants> & 
   {
     as?: keyof React.JSX.IntrinsicElements;
     className?: string;
     children?: React.ReactNode;
+    htmlFor?: string
   }
 
 export const textVariants = cva("font-sans", {
