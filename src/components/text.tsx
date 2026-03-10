@@ -19,18 +19,24 @@ export const textVariants = cva("font-sans", {
       "title-sm-bold": "text-sm leading-5 font-bold",
       "text-md-regular": "text-lg leading-6 font-normal",
       "text-sm-regular": "text-sm leading-5 font-normal"
+    },
+    color: {
+      primary: "text-gray-200",
+      secondary: "text-gray-100",
+      tertiary: "text-gray-300",
     }
   },
   defaultVariants: {
-    variant: "text-sm-regular"
+    variant: "text-sm-regular",
+    color: "primary"
   }
 })
 
-export default function Text({as = "span", variant, className, children, ...props}: TextProps) {
+export default function Text({as = "span", variant, color, className, children, ...props}: TextProps) {
   return React.createElement(
     as,
     {
-      className: textVariants({variant, className}),
+      className: textVariants({variant, color, className}),
       ...props
     },
     children

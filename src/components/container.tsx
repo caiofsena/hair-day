@@ -11,11 +11,14 @@ type ContainerProps =
 export const containerVariants = cva("mx-auto", {
     variants: {
       size: {
-        lg: "max-w-360 px-2"
+        full: "",
+        lg: "max-w-360 py-2",
+        md: "max-w-226.5 py-2",
+        sm: "max-w-124.5 py-2",
       }
     },
     defaultVariants: {
-      size: "lg"
+      size: "full"
     }
   }
 )

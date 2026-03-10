@@ -12,14 +12,20 @@ type InputTextProps =
   }
 
 export const inputTextContainerVariants = cva(
-  "flex items-center border border-solid border-gray-500 focus-within:border-yellow", 
+  "flex items-center", 
   {
     variants: {
+      variant: {
+        primary: "border border-solid border-gray-500 focus-within:border-yellow",
+        secondary: ""
+      },
       size: {
-        md: "p-3"
+        md: "p-3",
+        sm: "p-0"
       }
     },
     defaultVariants: {
+      variant: "primary",
       size: "md"
     }
   }
@@ -56,12 +62,13 @@ export default function InputText({
   size,
   textColor,
   iconColor,
+  variant,
   className,
   ...props
 }: InputTextProps) {
   return (
-    <div className={inputTextContainerVariants({size})}>
-      {IconComponent && <Icon svg={IconComponent}  className={inputTextIconVariants({iconColor})} />}
+    <div className={inputTextContainerVariants({variant, size})}>
+      {IconComponent && <Icon svg={IconComponent} className={inputTextIconVariants({iconColor})} />}
       <input
         className={
           cx(
