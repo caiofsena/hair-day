@@ -8,13 +8,14 @@ type ContainerProps =
     as?: keyof React.JSX.IntrinsicElements;
   }
 
-export const containerVariants = cva("mx-auto", {
+export const containerVariants = cva("", 
+  {
     variants: {
       size: {
         full: "",
-        lg: "max-w-360 py-2",
-        md: "max-w-226.5 py-2",
-        sm: "max-w-124.5 py-2",
+        lg: "max-w-360",
+        md: "max-w-226.5",
+        sm: "max-w-126",
       }
     },
     defaultVariants: {
@@ -26,6 +27,7 @@ export const containerVariants = cva("mx-auto", {
 
 export default function Container({
   as = "div",
+  size,
   children,
   className,
   ...props
@@ -33,7 +35,7 @@ export default function Container({
   return React.createElement(
     as,
     {
-      className: containerVariants({size: "lg", className}),
+      className: containerVariants({size, className}),
       ...props
     },
     children

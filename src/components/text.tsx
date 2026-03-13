@@ -24,6 +24,7 @@ export const textVariants = cva("font-sans", {
       primary: "text-gray-200",
       secondary: "text-gray-100",
       tertiary: "text-gray-300",
+      quaternary: "text-gray-900",
     }
   },
   defaultVariants: {

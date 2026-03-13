@@ -1,25 +1,25 @@
 import { cva, type VariantProps } from "class-variance-authority";
-import Icon from "./icon"
-import Text from "./text";
+import Icon, { iconVariants } from "./icon"
+import Text, { textVariants } from "./text";
 
 type ButtonProps = 
   Omit<React.ComponentProps<"button">, "size" | "disabled"> & 
   VariantProps<typeof buttonVariants> & 
-  VariantProps<typeof buttonTextVariants> & 
-  VariantProps<typeof buttonIconVariants> & 
   {
     iconLeft?: React.ComponentProps<typeof Icon>["svg"];
     iconRight?: React.ComponentProps<typeof Icon>["svg"];
+    iconColor?: VariantProps<typeof iconVariants>["color"];
+    textColor?: VariantProps<typeof textVariants>["color"]
     text?: string;
   }
 
 export const buttonVariants = cva(
-  'flex items-center justify-center cursor-pointer transition rounded-lg group gap-2',
+  'flex cursor-pointer transition rounded-lg group gap-2',
   {
     variants: {
       variant: {
-        primary: "bg-yellow hover:border-2 border-yellow-light",
-        secondary: "bg-transparent border border-solid border-gray-500"
+        primary: "w-full items-center justify-center bg-yellow hover:border-2 border-yellow-light",
+        secondary: "items-center bg-transparent border border-solid border-gray-500"
       },
       size: {
         md: "h-14 px-4",
@@ -37,47 +37,17 @@ export const buttonVariants = cva(
   }
 )
 
-export const buttonTextVariants = cva("",
-  {
-    variants: {
-      color: {
-        primary: "text-gray-900",
-        secondary: ""
-      }
-    },
-    defaultVariants: {
-      color: "primary"
-    }
-  }
-)
-
-export const buttonIconVariants = cva("",{
-  variants: {
-    color: {
-      primary: "fill-yellow",
-      secondary: "fill-gray-300"
-    },
-    size: {
-      md: "w-5 h-5",
-      sm: "w-4 h-4"
-    }
-  },
-  defaultVariants: {
-    color: "primary",
-    size: "md"
-  }
-})
-
 export default function Button({
   variant,
   size,
   disabled,
-  color,
   className,
   children,
   text,
+  textColor = "quaternary",
   iconLeft: IconLeftComponent,
   iconRight: IconRightComponent,
+  iconColor = "secondary",
   ...props
 }: ButtonProps) {
   return (
@@ -85,11 +55,11 @@ export default function Button({
       {IconLeftComponent && (
         <Icon
           svg={IconLeftComponent}
-          className={buttonIconVariants({color, size})}
+          className={iconVariants({color: iconColor, size})}
         />
       )}
       {text && (
-        <Text variant="title-sm-bold" className={buttonTextVariants({color})}>
+        <Text variant="title-sm-bold" className={textVariants({variant: "title-sm-bold", color: textColor})}>
           {text}
         </Text>
       )}
@@ -97,7 +67,7 @@ export default function Button({
       {IconRightComponent && (
         <Icon
           svg={IconRightComponent}
-          className={buttonIconVariants({color, size})}
+          className={iconVariants({color: iconColor, size})}
         />
       )}
     </button>

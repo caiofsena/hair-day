@@ -1,5 +1,5 @@
 import { cva, cx, type VariantProps } from "class-variance-authority"
-import Text, { textVariants } from "./text"
+import Text from "./text"
 
 type TimeSelectProps = 
   Omit<React.ComponentProps<"label">, "disabled"> & 
@@ -18,7 +18,7 @@ export const timeSelectTextVariants = cva("w-fit py-2 px-5",
         peer-checked:border-yellow  peer-checked:text-yellow peer-checked:bg-gray-600 peer-checked:pointer-events-none`
       },
       disabled: {
-        true: "border-gray-600 text-gray-500 bg-gray-900 pointer-events-none"
+        true: "border-gray-600 text-gray-500 bg-transparent pointer-events-none"
       }
     },
     defaultVariants: {

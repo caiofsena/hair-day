@@ -24,7 +24,7 @@ export const cardVariants = cva(
 )
 
 export default function Card({
-  as = "div",
+  as = "section",
   size,
   children,
   className,
