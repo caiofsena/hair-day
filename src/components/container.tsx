@@ -12,14 +12,14 @@ export const containerVariants = cva("",
   {
     variants: {
       size: {
-        full: "",
+        generic: "",
         lg: "max-w-360",
-        md: "max-w-226.5",
-        sm: "max-w-126",
+        md: "max-w-226.5 w-full",
+        sm: "max-w-126 w-full",
       }
     },
     defaultVariants: {
-      size: "full"
+      size: "generic"
     }
   }
 )

@@ -9,7 +9,7 @@ export default function MainContent({
   ...props
 }: MainContentProps) {
   return (
-    <Container as="main" size="lg" className={cx("", className)} {...props}>
+    <Container as="main" size="lg" className={cx("flex p-3", className)} {...props}>
       {children}
     </Container>
   )

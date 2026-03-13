@@ -26,7 +26,7 @@ export default function Service() {
           </Button>
         </Container>
 
-        <Container className="flex flex-col pb-6">
+        <Container className="flex flex-col pb-6 gap-2">
           <Text variant="title-md-bold" className="pb-2">Horários</Text>
           <Text variant="text-sm-regular" color="tertiary" className="pb-2">Manhã</Text>
           <Container className="flex flex-wrap pb-3 gap-1">

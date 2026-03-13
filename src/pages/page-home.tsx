@@ -1,12 +1,13 @@
-import Container from "../components/container";
 import Diary from "../core/diary";
+import Logo from "../core/logo";
 import Service from "../core/service";
 
 export default function PageHome() {
   return (
-    <Container className="flex gap-3 pl-3">
+    <>
+      <Logo />
       <Service />
       <Diary />
-    </Container>
+    </>
   )
 }

@@ -17,7 +17,7 @@ export default function Diary() {
   return (
     <Container size="md" className="w-full px-28 py-20">
       <Container className="flex flex-col">
-        <Container as="header" className="flex justify-between">
+        <Container as="header" className="flex">
           <Container className="flex flex-col">
             <Text variant="title-lg-bold">Sua agenda</Text>
             <Text variant="text-sm-regular">Consulte os seus cortes de cabelo agendados por dia</Text>
