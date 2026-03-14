@@ -1,10 +1,16 @@
 import useLocalStorage from "use-local-storage";
-import { ENTRY_KEY } from "../models/entry";
+import { ENTRY_KEY, EntryListData } from "../constants";
+import type { Entry } from "../models";
 
 export default function useEntry() {
-  const [ entryList ] = useLocalStorage(ENTRY_KEY, []);
+  const [ entryList, setEntryList ] = useLocalStorage<Entry[]>(ENTRY_KEY, []);
+
+  async function loadEntryList() {
+    setEntryList(EntryListData);
+  } 
 
   return {
-    entryList
+    entryList,
+    loadEntryList
   }
 }

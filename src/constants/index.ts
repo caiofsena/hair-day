@@ -1,3 +1,8 @@
+import type { Schedule } from "../models";
+
+export const ENTRY_KEY = "entry"
+export const SCHEDULE_KEY = "schedule"
+
 export const ScheduleListData = [
   {
     id: "13/03/2026",
@@ -88,7 +93,7 @@ export const ScheduleListData = [
 
     ]
   }
-];
+] as Schedule[];
 
 export const EntryListData = [
   {
