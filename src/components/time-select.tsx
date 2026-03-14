@@ -34,10 +34,11 @@ export default function TimeSelect({
   value,
   variant,
   disabled,
-  children
+  children,
+  ...props
 }: TimeSelectProps) {
   return (
-    <div className={"flex items-center justify-center"}>
+    <div className={"flex items-center justify-center"} {...props}>
       <input
         type="radio"
         id={id}
