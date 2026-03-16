@@ -4,13 +4,19 @@ import Text from "../components/text";
 import TimeSelect from "../components/time-select";
 import useSchedule from "../hooks/use-schedule";
 
-export default function ScheduleList() {
+type ScheduleListProps = {
+  selectedHour: string;
+  setSelectedPeriod: (period: string) => void,
+  setSelectedHour: (hour: string) => void
+}
+
+export default function ScheduleList({selectedHour, setSelectedPeriod, setSelectedHour}: ScheduleListProps) {
   const { scheduleList, loadScheduleList } = useSchedule();
   const currentSchedule = scheduleList[0];
 
-  function handleSelectSchedule(id: string) {
-    // select schedule
-    console.log("ScheduleList select: ", id);
+  function handleSelectSchedule(period: string, hour: string) {
+    setSelectedPeriod(period);
+    setSelectedHour(hour);
   }
 
   async function load() {
@@ -41,9 +47,10 @@ export default function ScheduleList() {
                             value={item.value} 
                             name="time" 
                             disabled={item.disabled}
+                            checked={selectedHour === item.value}
                             onClick={() => {
                               if (!item.disabled) {
-                                handleSelectSchedule(item.id)}
+                                handleSelectSchedule(period.title, item.value)}
                               }
                             }>
                               {item.value}

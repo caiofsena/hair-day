@@ -3,74 +3,73 @@ import Container from "../components/container";
 import Icon from "../components/icon";
 import Text from "../components/text";
 
-import CalendarBlank from "../assets/icons/calendar-blank.svg?react"
 import CloudSun from "../assets/icons/cloud-sun.svg?react"
 import MoonStars from "../assets/icons/moon-stars.svg?react"
 import SunHorizon from "../assets/icons/sun-horizon.svg?react"
 
 import EntryItem from "./entry-item";
-import useSchedule from "../hooks/use-schedule";
 import useEntry from "../hooks/use-entry";
-import React from "react";
 
-export default function EntryList() {
-  const { scheduleList } = useSchedule();
-  const { entryList, loadEntryList } = useEntry();
+type EntryListProps = {
+  selectedDate: string;
+}
 
-  const currentSchedule = scheduleList[0];
-
-  function currentPeriodIcon(period: string) {
-    if (period === "Manhã") {
-      return SunHorizon;
-    }
-    if (period === "Tarde") {
-      return CloudSun;
-    }
-    if (period === "Noite") {
-      return MoonStars;
-    }
-    return CalendarBlank;
-  }
-
-  async function load() {
-    await loadEntryList();
-  }
-
-  React.useEffect(() => {
-    load();
-  }, [])
+export default function EntryList({ selectedDate }: EntryListProps) {
+  const { entryList } = useEntry();
+  
+  const currentEntryList = entryList.filter(entry => entry.date === selectedDate);
+  const currentEntryListByMorning = currentEntryList.filter(item => item.period === "Manhã");
+  const currentEntryListByAfternoon = currentEntryList.filter(item => item.period === "Tarde");
+  const currentEntryListByNight = currentEntryList.filter(item => item.period === "Noite");
+  
+  const NoEntry = () => <><Text>Nenhum agendamento para este período</Text></>;
 
   return (
     <Container className="flex flex-col pt-8 gap-3">
-
-      {currentSchedule && (
+      {entryList && (
         <>
-          {currentSchedule.periods && 
-            currentSchedule.periods.map(period => {
-              return (
-                <Card key={period.title} className="border border-gray-600">
-                  <Container className="flex items-center border-b border-b-gray-600 py-3 px-5 gap-3">
-                    <Icon svg={currentPeriodIcon(period.title)} className="fill-yellow" />
-                    <Text variant="title-sm-bold" className="flex flex-auto">{period.title}</Text>
-                    <Text variant="title-sm-bold">{period.description}</Text>
-                  </Container>
-                  <Container className="p-5 gap-0.5">
-                    {period.items && (
-                      period.items.map(item => {
-                        const currentEntry = 
-                          entryList.find(entry => entry.date === currentSchedule.id && entry.hour === item.value);
-                        if (currentEntry) {
-                          return (
-                            <EntryItem id={currentEntry.id} key={currentEntry.id} hour={currentEntry?.hour} client={currentEntry.client} />
-                          )
-                        }
-                        return null;
-                      })
-                    )}
-                  </Container>
-                </Card>
-              )
-            })}
+          <Card className="border border-gray-600">
+            <Container className="flex items-center border-b border-b-gray-600 py-3 px-5 gap-3">
+              <Icon svg={SunHorizon} className="fill-yellow" />
+              <Text variant="title-sm-bold" className="flex flex-auto">{"Manhã"}</Text>
+              <Text variant="title-sm-bold">{"09h-12h"}</Text>
+            </Container>
+            <Container className="p-5 gap-0.5">
+              {currentEntryListByMorning && currentEntryListByMorning.length > 0 ? 
+                currentEntryListByMorning.map(item => (
+                  <EntryItem id={item.id} key={item.id} hour={item?.hour} client={item.client} />
+                )
+              ) : <NoEntry />}
+            </Container>
+          </Card>
+          <Card className="border border-gray-600">
+            <Container className="flex items-center border-b border-b-gray-600 py-3 px-5 gap-3">
+              <Icon svg={CloudSun} className="fill-yellow" />
+              <Text variant="title-sm-bold" className="flex flex-auto">{"Tarde"}</Text>
+              <Text variant="title-sm-bold">{"13h-17h"}</Text>
+            </Container>
+            <Container className="p-5 gap-0.5">
+              {currentEntryListByAfternoon && currentEntryListByAfternoon.length > 0 ?
+                currentEntryListByAfternoon.map(item => (
+                  <EntryItem id={item.id} key={item.id} hour={item?.hour} client={item.client} />
+                )
+              ) : <NoEntry />}
+            </Container>
+          </Card>
+          <Card className="border border-gray-600">
+            <Container className="flex items-center border-b border-b-gray-600 py-3 px-5 gap-3">
+              <Icon svg={MoonStars} className="fill-yellow" />
+              <Text variant="title-sm-bold" className="flex flex-auto">{"Noite"}</Text>
+              <Text variant="title-sm-bold">{"18h-21h"}</Text>
+            </Container>
+            <Container className="p-5 gap-0.5">
+              {currentEntryListByNight && currentEntryListByNight.length > 0 ?
+                currentEntryListByNight.map(item => (
+                  <EntryItem id={item.id} key={item.id} hour={item?.hour} client={item.client} />
+                )
+              ) : <NoEntry />}
+            </Container>
+          </Card>
         </>
       )}
     </Container>

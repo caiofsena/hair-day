@@ -34,6 +34,7 @@ export default function TimeSelect({
   value,
   variant,
   disabled,
+  checked,
   children,
   ...props
 }: TimeSelectProps) {
@@ -46,6 +47,7 @@ export default function TimeSelect({
         className={"appearance-none peer"}
         value={value}
         disabled={disabled}
+        checked={checked}
       />
       <Text 
         as="label"
