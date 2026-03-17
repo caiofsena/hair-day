@@ -23,6 +23,7 @@ export default function EntryList({ selectedDate }: EntryListProps) {
   const currentEntryListByMorning = currentEntryList.filter(item => item.period === "Manhã");
   const currentEntryListByAfternoon = currentEntryList.filter(item => item.period === "Tarde");
   const currentEntryListByNight = currentEntryList.filter(item => item.period === "Noite");
+  const isDateEqualGreaterToday = new Date(selectedDate).getUTCDate() >= new Date().getUTCDate(); 
   
   const NoEntry = () => <><Text>Nenhum agendamento para este período</Text></>;
 
@@ -44,7 +45,12 @@ export default function EntryList({ selectedDate }: EntryListProps) {
             <Container className="p-5 gap-0.5">
               {currentEntryListByMorning && currentEntryListByMorning.length > 0 ? 
                 currentEntryListByMorning.map(item => (
-                  <EntryItem key={item.id} hour={item?.hour} client={item.client} onRemoveEntry={() => handleRemoveEntry(item.id)} />
+                  <EntryItem 
+                    key={item.id} 
+                    hour={item?.hour} 
+                    client={item.client} 
+                    onRemoveEntry={isDateEqualGreaterToday ? () => handleRemoveEntry(item.id) : undefined} 
+                  />
                 )
               ) : <NoEntry />}
             </Container>
@@ -58,7 +64,12 @@ export default function EntryList({ selectedDate }: EntryListProps) {
             <Container className="p-5 gap-0.5">
               {currentEntryListByAfternoon && currentEntryListByAfternoon.length > 0 ?
                 currentEntryListByAfternoon.map(item => (
-                  <EntryItem key={item.id} hour={item?.hour} client={item.client} onRemoveEntry={() => handleRemoveEntry(item.id)} />
+                  <EntryItem 
+                    key={item.id} 
+                    hour={item?.hour} 
+                    client={item.client} 
+                    onRemoveEntry={isDateEqualGreaterToday ? () => handleRemoveEntry(item.id) : undefined} 
+                  />
                 )
               ) : <NoEntry />}
             </Container>
@@ -72,7 +83,12 @@ export default function EntryList({ selectedDate }: EntryListProps) {
             <Container className="p-5 gap-0.5">
               {currentEntryListByNight && currentEntryListByNight.length > 0 ?
                 currentEntryListByNight.map(item => (
-                  <EntryItem key={item.id} hour={item?.hour} client={item.client} onRemoveEntry={() => handleRemoveEntry(item.id)} />
+                  <EntryItem 
+                    key={item.id} 
+                    hour={item?.hour} 
+                    client={item.client} 
+                    onRemoveEntry={isDateEqualGreaterToday ? () => handleRemoveEntry(item.id) : undefined} 
+                  />
                 )
               ) : <NoEntry />}
             </Container>

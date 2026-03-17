@@ -7,7 +7,7 @@ import Trash from "../assets/icons/trash.svg?react"
 type EntryItemProps = {
   hour: string;
   client: string;
-  onRemoveEntry: () => void;
+  onRemoveEntry?: () => void;
 }
 
 export default function EntryItem({hour, client, onRemoveEntry}: EntryItemProps) {
@@ -15,7 +15,7 @@ export default function EntryItem({hour, client, onRemoveEntry}: EntryItemProps)
     <Container className="flex items-center px-1 gap-5 h-8">
       <Text variant="title-sm-bold">{hour}</Text>
       <Text variant="title-sm-bold" className="flex flex-auto">{client}</Text>
-      <ButtonIcon size="sm" icon={Trash} onClick={onRemoveEntry} />
+      { onRemoveEntry && <ButtonIcon size="sm" icon={Trash} onClick={onRemoveEntry} /> }
     </Container>
   )
 }

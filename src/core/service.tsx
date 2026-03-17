@@ -47,7 +47,7 @@ export default function Service() {
         client,
         createdAt: new Date().toDateString()
       }
-      console.log("handleSaveEntry: ", newEntry);
+      
       const updatedEntryList =  await saveEntry(newEntry);
       await updateScheduleList(selectedDate, updatedEntryList);
 
@@ -58,9 +58,7 @@ export default function Service() {
   }
 
   async function handleChangeDate(date: Date | null) {
-    console.log("handleChangeClient 1");
     if (date) {
-      console.log("handleChangeClient 2: ", date);
       setSelectedDate(date?.toDateString());
       await updateScheduleList(date?.toDateString(), entryList);
     }
@@ -80,17 +78,21 @@ export default function Service() {
         <Container className="flex flex-col pb-6">
           <Container className="flex flex-1 flex-col pb-8">
             <Text variant="title-md-bold" className="pb-2">Data</Text>
-            <Container className="flex flex-auto items-center gap-2 p-3 w-full border border-gray-500 rounded-lg">
+            <Container className="flex flex-auto items-center p-3 w-full border border-gray-500 rounded-lg">
               <Icon svg={CalendarBlank} />
               <DatePicker 
                 icon={<CalendarBlank />} 
                 locale="ptBR"
                 dateFormat="dd/MM/yyyy"
+                minDate={new Date()}
                 selected={new Date(selectedDate)} 
-                onChange={(date: Date | null) => handleChangeDate(date)} 
-                className="flex flex-auto text-gray-200 pt-1"
+                onChange={(date: Date | null) => handleChangeDate(date)}
+                onKeyDown={(e) => {
+                  e.preventDefault();
+                }}
+                className="flex w-64 max-w-64 ml-2 text-gray-200 outline-none"
               />
-              <Icon svg={CaretDown} color="secondary" />
+              <Icon svg={CaretDown} color="secondary" className="ml-2" />
             </Container>
           </Container>
 
@@ -104,7 +106,9 @@ export default function Service() {
               value={client}
               onChange={handleChangeClient} 
               autoFocus
-              required />
+              required
+              className="w-72 max-w-72" 
+            />
           </Container>
         </Container>
         <Button type="submit" text="AGENDAR" disabled={!validEntryFields()} />

@@ -42,7 +42,7 @@ export default function InputText({
       <input
         className={
           cx(
-            "placeholder:text-gray-400",
+            "placeholder:text-gray-400 outline-none",
             textVariants({variant: "text-md-regular"}),
             className
           )
