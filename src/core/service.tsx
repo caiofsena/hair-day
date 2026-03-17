@@ -21,16 +21,15 @@ import "react-datepicker/dist/react-datepicker.css";
 
 export default function Service() {
   const { saveEntry, entryList } = useEntry();
-  const { updateScheduleList } = useSchedule();
+  const { updateScheduleList, seletedScheduleDate, setSelectedScheduleDate } = useSchedule();
   const [ client, setClient ] = React.useState("");
-  const [ selectedDate, setSelectedDate ] = React.useState(new Date().toDateString());
   const [ selectedHour, setSelectedHour ] = React.useState("");
   const [ selectedPeriod, setSelectedPeriod ] = React.useState("");
 
   registerLocale('ptBR', ptBR);
 
   function validEntryFields() {
-    if (selectedDate && selectedHour && client) {
+    if (seletedScheduleDate && selectedHour && client && client.length >= 3 ) {
       return true;
     }
     return false;
@@ -42,14 +41,14 @@ export default function Service() {
       const newEntry: Entry = {
         id: generateNewId(),
         period: selectedPeriod,
-        date: selectedDate,
+        date: seletedScheduleDate,
         hour: selectedHour,
         client,
         createdAt: new Date().toDateString()
       }
       
       const updatedEntryList =  await saveEntry(newEntry);
-      await updateScheduleList(selectedDate, updatedEntryList);
+      await updateScheduleList(seletedScheduleDate, updatedEntryList);
 
       setSelectedHour("");
       setSelectedPeriod("");
@@ -59,7 +58,7 @@ export default function Service() {
 
   async function handleChangeDate(date: Date | null) {
     if (date) {
-      setSelectedDate(date?.toDateString());
+      setSelectedScheduleDate(date?.toDateString());
       await updateScheduleList(date?.toDateString(), entryList);
     }
   }
@@ -85,7 +84,7 @@ export default function Service() {
                 locale="ptBR"
                 dateFormat="dd/MM/yyyy"
                 minDate={new Date()}
-                selected={new Date(selectedDate)} 
+                selected={new Date(seletedScheduleDate)} 
                 onChange={(date: Date | null) => handleChangeDate(date)}
                 onKeyDown={(e) => {
                   e.preventDefault();
@@ -104,6 +103,8 @@ export default function Service() {
               icon={UserSquare} 
               placeholder="Nome do cliente" 
               value={client}
+              minLength={3}
+              maxLength={40}
               onChange={handleChangeClient} 
               autoFocus
               required

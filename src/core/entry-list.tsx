@@ -17,7 +17,7 @@ type EntryListProps = {
 
 export default function EntryList({ selectedDate }: EntryListProps) {
   const { entryList, removeEntry } = useEntry();
-  const { updateScheduleList } = useSchedule();
+  const { updateScheduleList, seletedScheduleDate } = useSchedule();
   
   const currentEntryList = entryList.filter(entry => entry.date === selectedDate);
   const currentEntryListByMorning = currentEntryList.filter(item => item.period === "Manhã");
@@ -29,7 +29,9 @@ export default function EntryList({ selectedDate }: EntryListProps) {
 
   async function handleRemoveEntry(id: string) {
     const updatedEntryList = await removeEntry(id);
-    await updateScheduleList(selectedDate, updatedEntryList);
+    if (seletedScheduleDate === selectedDate) {
+      await updateScheduleList(selectedDate, updatedEntryList);
+    }
   } 
 
   return (

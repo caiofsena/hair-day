@@ -48,6 +48,7 @@ export default function TimeSelect({
         value={value}
         disabled={disabled}
         checked={checked}
+        readOnly
       />
       <Text 
         as="label"

@@ -4,6 +4,8 @@ import type { Entry, Schedule } from "../models";
 
 export default function useSchedule() {
   const [ scheduleList, setScheduleList ] = useLocalStorage<Schedule[]>(SCHEDULE_KEY, []);
+  const [ seletedScheduleDate, setSelectedScheduleDate ] = 
+    useLocalStorage<string>(`${SCHEDULE_KEY}:selectedDate`, new Date().toDateString());
 
   async function loadScheduleList() {
     if (scheduleList && scheduleList.length === 0) {
@@ -42,6 +44,8 @@ export default function useSchedule() {
 
   return {
     scheduleList,
+    seletedScheduleDate,
+    setSelectedScheduleDate,
     loadScheduleList,
     updateScheduleList
   }
