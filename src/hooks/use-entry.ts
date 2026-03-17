@@ -6,7 +6,11 @@ export default function useEntry() {
   const [ entryList, setEntryList ] = useLocalStorage<Entry[]>(ENTRY_KEY, []);
 
   async function saveEntry (newEntry: Entry) {
-    setEntryList([...entryList, newEntry]);
+    if (newEntry) {
+      setEntryList([...entryList, newEntry]);
+      return [...entryList, newEntry];
+    }
+    return entryList;
   }
 
   return {

@@ -1,15 +1,10 @@
 export type Schedule = {
-  id: string;
-  periods: Period[];
-};
-
-export type Period = {
   title: string;
   description: string;
-  items: PeriodItem[];
+  items: ScheduleItem[];
 }
 
-export type PeriodItem = {
+export type ScheduleItem = {
   id: string;
   value: string;
   disabled: boolean;

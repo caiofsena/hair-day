@@ -40,8 +40,8 @@ export default function Service() {
         createdAt: new Date().toDateString()
       }
       console.log("handleSaveEntry: ", newEntry);
-      await saveEntry(newEntry);
-      await updateScheduleList(newEntry);
+      const updatedEntryList =  await saveEntry(newEntry);
+      await updateScheduleList(selectedDate, updatedEntryList);
 
       setSelectedHour("");
       setSelectedPeriod("");
