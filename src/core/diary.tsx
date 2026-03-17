@@ -1,18 +1,27 @@
-import Button from "../components/button";
 import Container from "../components/container";
 import Text from "../components/text";
 
 import CalendarBlank from "../assets/icons/calendar-blank.svg?react"
 import CaretDown from "../assets/icons/caret-down.svg?react"
-import InputText from "../components/input-text";
 import EntryList from "./entry-list";
 import React from "react";
+import Icon from "../components/icon";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+import useEntry from "../hooks/use-entry";
 
 export default function Diary() {
-  const [ selectedDate, setSelectedDate ] = React.useState("13/03/2026");
+  const { getEntryListByDate } = useEntry();
+  const [ selectedDate, setSelectedDate ] = React.useState(new Date().toDateString());
 
-  function handleChangeDate(e: React.ChangeEvent<HTMLInputElement>) {
-    setSelectedDate(e.target.value);
+  async function handleChangeDate(date: Date | null) {
+    console.log("handleChangeClient 1");
+    if (date) {
+      console.log("handleChangeClient 2: ", date);
+      setSelectedDate(date?.toDateString());
+      await getEntryListByDate(date?.toDateString());
+    }
   }
 
   return (
@@ -23,21 +32,18 @@ export default function Diary() {
             <Text variant="title-lg-bold">Sua agenda</Text>
             <Text variant="text-sm-regular">Consulte os seus cortes de cabelo agendados por dia</Text>
           </Container>
-          <Button 
-            variant="secondary" 
-            size="sm" 
-            iconLeft={CalendarBlank} 
-            iconRight={CaretDown} 
-            color="secondary">
-              <Container className="flex flex-auto">
-                <InputText 
-                  variant="secondary" 
-                  size="sm" 
-                  placeholder="Data" 
-                  value={selectedDate}
-                  onChange={handleChangeDate} />
-              </Container>
-          </Button>
+            <Container className="flex flex-auto items-center gap-2 p-3 w-full border border-gray-500 rounded-lg">
+              <Icon svg={CalendarBlank} />
+              <DatePicker 
+                icon={<CalendarBlank />} 
+                locale="ptBR"
+                dateFormat="dd/MM/yyyy"
+                selected={new Date(selectedDate)} 
+                onChange={(date: Date | null) => handleChangeDate(date)} 
+                className="flex flex-auto text-gray-200 pt-1"
+              />
+              <Icon svg={CaretDown} color="secondary" />
+            </Container>
         </Container>
         <EntryList selectedDate={selectedDate}  />
       </Container>

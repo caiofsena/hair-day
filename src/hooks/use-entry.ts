@@ -5,6 +5,10 @@ import type { Entry } from "../models";
 export default function useEntry() {
   const [ entryList, setEntryList ] = useLocalStorage<Entry[]>(ENTRY_KEY, []);
 
+  function getEntryListByDate(date: string) {
+    return [...entryList.filter(entry => entry.date === date)];
+  }
+
   async function saveEntry (newEntry: Entry) {
     if (newEntry) {
       setEntryList([...entryList, newEntry]);
@@ -24,6 +28,7 @@ export default function useEntry() {
 
   return {
     entryList,
+    getEntryListByDate,
     saveEntry,
     removeEntry
   }
