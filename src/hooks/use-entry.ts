@@ -13,8 +13,18 @@ export default function useEntry() {
     return entryList;
   }
 
+  async function removeEntry(id: string) {
+    const filteredEntryList = entryList.filter(entry => entry.id !== id);
+    if (filteredEntryList) {
+      setEntryList([...filteredEntryList]);
+      return [...filteredEntryList];
+    }
+    return entryList;
+  }
+
   return {
     entryList,
-    saveEntry
+    saveEntry,
+    removeEntry
   }
 }

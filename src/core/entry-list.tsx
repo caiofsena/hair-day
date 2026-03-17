@@ -9,13 +9,15 @@ import SunHorizon from "../assets/icons/sun-horizon.svg?react"
 
 import EntryItem from "./entry-item";
 import useEntry from "../hooks/use-entry";
+import useSchedule from "../hooks/use-schedule";
 
 type EntryListProps = {
   selectedDate: string;
 }
 
 export default function EntryList({ selectedDate }: EntryListProps) {
-  const { entryList } = useEntry();
+  const { entryList, removeEntry } = useEntry();
+  const { updateScheduleList } = useSchedule();
   
   const currentEntryList = entryList.filter(entry => entry.date === selectedDate);
   const currentEntryListByMorning = currentEntryList.filter(item => item.period === "Manhã");
@@ -23,6 +25,11 @@ export default function EntryList({ selectedDate }: EntryListProps) {
   const currentEntryListByNight = currentEntryList.filter(item => item.period === "Noite");
   
   const NoEntry = () => <><Text>Nenhum agendamento para este período</Text></>;
+
+  async function handleRemoveEntry(id: string) {
+    const updatedEntryList = await removeEntry(id);
+    await updateScheduleList(selectedDate, updatedEntryList);
+  } 
 
   return (
     <Container className="flex flex-col pt-8 gap-3">
@@ -37,7 +44,7 @@ export default function EntryList({ selectedDate }: EntryListProps) {
             <Container className="p-5 gap-0.5">
               {currentEntryListByMorning && currentEntryListByMorning.length > 0 ? 
                 currentEntryListByMorning.map(item => (
-                  <EntryItem id={item.id} key={item.id} hour={item?.hour} client={item.client} />
+                  <EntryItem key={item.id} hour={item?.hour} client={item.client} onRemoveEntry={() => handleRemoveEntry(item.id)} />
                 )
               ) : <NoEntry />}
             </Container>
@@ -51,7 +58,7 @@ export default function EntryList({ selectedDate }: EntryListProps) {
             <Container className="p-5 gap-0.5">
               {currentEntryListByAfternoon && currentEntryListByAfternoon.length > 0 ?
                 currentEntryListByAfternoon.map(item => (
-                  <EntryItem id={item.id} key={item.id} hour={item?.hour} client={item.client} />
+                  <EntryItem key={item.id} hour={item?.hour} client={item.client} onRemoveEntry={() => handleRemoveEntry(item.id)} />
                 )
               ) : <NoEntry />}
             </Container>
@@ -65,7 +72,7 @@ export default function EntryList({ selectedDate }: EntryListProps) {
             <Container className="p-5 gap-0.5">
               {currentEntryListByNight && currentEntryListByNight.length > 0 ?
                 currentEntryListByNight.map(item => (
-                  <EntryItem id={item.id} key={item.id} hour={item?.hour} client={item.client} />
+                  <EntryItem key={item.id} hour={item?.hour} client={item.client} onRemoveEntry={() => handleRemoveEntry(item.id)} />
                 )
               ) : <NoEntry />}
             </Container>

@@ -25,8 +25,13 @@ export default function useSchedule() {
                 ...item,
                 disabled: true
               }
+            } else {
+              return {
+                ...item,
+                disabled: false
+              }
             }
-            return item;
+            
           })
         }
       })
